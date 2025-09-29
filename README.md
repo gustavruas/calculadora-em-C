@@ -3,7 +3,7 @@
 ## O que ela faz:
 ### Calculadora cientifica com 24 funções em C, projeto de faculdade. // Aprofundar
 ## Quais tecnologias e recursos foram utilizados:
-### Documentação da linguagem C, biblioteca "<math.h>".
+### Documentação da linguagem C, biblioteca "<math.h>" para ter funções avançadas em matemática, biblioteca "<stdlib.h>" para controle de memória.
 ## Como instalar, compilar e executar o código
 ### Não é necessário a instalação desse programa, apenas o download e compilação; dito isso:
 ### Instalação: 
