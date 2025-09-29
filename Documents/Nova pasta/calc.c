@@ -100,6 +100,6 @@ void menu(){
 
 int main(){
     // O arquivo de vdd já foi criado, esse arquivo é de teste para criar funções matemáticas
-    soma();
+    menu();
     return 0;
 }
