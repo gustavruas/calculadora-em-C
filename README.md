@@ -11,7 +11,10 @@
 ```git
 gcc calc.c -o executavel
 ```
-### Execução: ./executavel
+### Execução:
+```
+./executavel
+```
 ## Exemplos de uso:
 ### Soma, subtração etc // Add prints do programa
 ## Informações adicionais que ajudem na compreensão do projeto // Nem ideia do que add aqui
