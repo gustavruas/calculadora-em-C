@@ -6,7 +6,10 @@
 ### Documentação da linguagem C, biblioteca "<math.h>".
 ## Como instalar, compilar e executar o código
 ### Não é necessário a instalação desse programa, apenas o download e compilação; dito isso:
-### \n Instalação: git clone "https://github.com/gustavruas/calculadora-em-C"
+### Instalação: 
+```
+git clone "https://github.com/gustavruas/calculadora-em-C"
+```
 ### Compilação: 
 ```git
 gcc calc.c -o executavel
