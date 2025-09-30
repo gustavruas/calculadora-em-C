@@ -9,7 +9,6 @@ int *array; // Aponta pro endereço da memória, famoso ponteiro
 int tamanho; // Define o tamanho que será mudado, tornando o array dinamico
 
 int ab32(){
-    int soma = 0;
     printf("Tamanho do array:");
     scanf("%d", &tamanho); // pede o tamanho do array para o usuário
 
@@ -23,7 +22,7 @@ int ab32(){
 }
 
 void soma(){
-    int res = 0;
+    double res = 0;
     ab32();
     for(int i = 0; i < tamanho; i++){
         printf("Elemento %d: ", i + 1); // o %d é qualquer decimal que será representado depois da vírgula
@@ -31,58 +30,115 @@ void soma(){
         res += array[i]; // Soma os elementos à soma, um por um
     }
 
-    printf("Soma = %d\n", res);
+    printf("Soma = %lf\n", res);
     free(array); // Libera memória
 }
 
 void subtrair(){
-    int res = 0;
+    double res = 0;
     ab32();
     for(int i = 0; i < tamanho; i++){
         printf("Elemento %d: ", i + 1);
         scanf("%d", &array[i]);
-        res -= array[i]; // subtrai os elementos à soma, um por um
+        // res -= array[i]; // subtrai os elementos à soma, um por um
     }
 
-    printf("Subtracao = %d", res);
+    printf("Subtracao = %lf", res);
     free(array);
 }
 
 void multiplicar(){
-    int res = 0;
+    double res = 0;
     ab32();
     for(int i = 0; i < tamanho; i++){
         printf("Elemento %d ", i + 1);
         scanf("%d", &array[i]);
         res *= array[i]; 
     }
-    printf("Multiplicacao = %d", res);
+    printf("Multiplicacao = %lf", res);
     free(array);
 }
 
 void dividir(){
-    int res = 0;
+    double res = 0;
     ab32();
     for(int i = 0; i < tamanho; i++){
         printf("Elemento %d ", i + 1);
         scanf("%d", &array[i]);
         res /= array[i];
     }
-    printf("Divisao = %d", res);
+    printf("Divisao = %lf", res);
     free(array);
 }
 
 void porcentagem(){
-    int res = 0;
-    ab32();
-    for(int i = 0; i < tamanho; i++){
-        printf("Elemento %d ", i + 1);
-        scanf("%d", &array[i]);
-        res /= array[i]; // Arrumar
-    }
-    printf("Porcentagem = %d", res);
-    free(array);
+    double res;
+    double a;
+    double b;
+    printf("Primeiro numero:\n");
+    scanf("%lf", &a);
+    printf("Segundo numero:\n");
+    scanf("%lf", &b);
+    res = a*b/100;
+    printf("Resultado:%lf", res);
 }
+void potencia(){
+    double res;
+    double a;
+    double b;
+    printf("Base:\n");
+    scanf("%lf", &a);
+    printf("Expoente");
+    scanf("%lf", &b);
+    res = pow(a,b);
+    printf("Resultado:%lf", res);
+    // Tentar fazer sem a biblioteca
+}
+void raiz2(){
+    double res;
+    double a;
+    printf("Base:");
+    scanf("%lf", &a);
+    res = pow(a, 0.5);
+    printf("Resultado:%lf", res);
+}
+void raiz3(){
+    double res;
+    double a;
+    double b = 0.33333;
+    printf("Base:");
+    scanf("%lf", &a);
+    res = pow(a, b);
+    printf("Resultado:%lf", res);
+    // Consertar o fato de não conseguir usar 1/3 como expoente
+}
+void potenciareversa(){
+    double res;
+    double a;
+    double b;
+    printf("Base:");
+    scanf("%lf", &a);
+    printf("Expoente:");
+    scanf("%lf", &b);
+    res = pow(a, -b);
+    printf("Resultado:%lf", res);
+}
+void fatorial(){
+
+}
+
+void s3n(){}
+void c0s(){}
+void t4n(){}
+void s3nreversa(){}
+void c0sreversa(){}
+void t4nreversa(){}
+void logaritmo(){}
+void log_natural(){}
+void modulo(){}
+void dezElevadoaX(){}
+void vezesEuler(){}
+void EulerElevado(){}
 
 void menu(){
     int escolha; 
@@ -103,6 +159,64 @@ void menu(){
         break;
     case 4:
         dividir();
+        break;
+    case 5:
+        porcentagem();
+        break;
+    case 6:
+        potencia();
+        break;
+    case 7:
+        raiz2();
+        break;
+    case 8:
+        raiz3();
+        break;
+    case 9:
+        potenciareversa();
+        break;
+    case 10:
+        fatorial();
+        break;
+    case 11:
+        s3n();
+        break;
+    case 12:
+        c0s();
+        break;
+    case 13:
+        t4n();
+        break;
+    case 14:
+        s3nreversa();
+        break;
+    case 15:
+        c0sreversa();
+        break;
+    case 16:
+        t4nreversa();
+        break;
+    case 17:
+        logaritmo();
+        break;
+    case 18:
+        log_natural();
+        break;
+    case 19:
+        modulo();
+        break;
+    case 20:
+        dezElevadoaX();
+        break;
+    case 21:
+        vezesEuler();
+        break;
+    case 22:
+        EulerElevado();
+        break;
+    case 23:
+        break;
+    case 24:
         break;
     default:
         printf("Selecione alguma funcao do menu!\n");
