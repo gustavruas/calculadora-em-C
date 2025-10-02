@@ -4,6 +4,9 @@
 
 // As funções não devem ter apenas dois números XD
 // Double não tem os mesmos problemas de float, isso pq double tem mais memória que o float
+// Tem que usar for, while e/ou do-while no código, só lembrando
+
+// Dar um jeito de usar o array para juntar funções
 
 int *array; // Aponta pro endereço da memória, famoso ponteiro
 int tamanho; // Define o tamanho que será mudado, tornando o array dinamico
@@ -87,9 +90,9 @@ void potencia(){
     double a;
     double b;
     printf("Base:\n");
-    scanf("%lf", &a);
+    scanf("%lf", a);
     printf("Expoente");
-    scanf("%lf", &b);
+    scanf("%lf", b);
     res = pow(a,b);
     printf("Resultado:%lf", res);
     // Tentar fazer sem a biblioteca
@@ -98,7 +101,7 @@ void raiz2(){
     double res;
     double a;
     printf("Base:");
-    scanf("%lf", &a);
+    scanf("%lf", a);
     res = pow(a, 0.5);
     printf("Resultado:%lf", res);
 }
@@ -107,7 +110,7 @@ void raiz3(){
     double a;
     double b = 0.33333;
     printf("Base:");
-    scanf("%lf", &a);
+    scanf("%lf", a);
     res = pow(a, b);
     printf("Resultado:%lf", res);
     // Consertar o fato de não conseguir usar 1/3 como expoente
@@ -117,28 +120,125 @@ void potenciareversa(){
     double a;
     double b;
     printf("Base:");
-    scanf("%lf", &a);
+    scanf("%lf", a);
     printf("Expoente:");
     scanf("%lf", &b);
     res = pow(a, -b);
     printf("Resultado:%lf", res);
 }
 void fatorial(){
-
+    double res;
+    int a;
+    printf("Selecione um numero");
+    scanf("%lf", a);
+    res = tgamma(a+1);
+    if (a < 0){
+        printf("Fatorial nao eh feito pra numeros negativos");
+    }
+    else{
+    printf("Fatorial de %d é: %lf\n", a, res);
+    }
 }
 
-void s3n(){}
-void c0s(){}
-void t4n(){}
-void s3nreversa(){}
-void c0sreversa(){}
-void t4nreversa(){}
-void logaritmo(){}
-void log_natural(){}
-void modulo(){}
-void dezElevadoaX(){}
-void vezesEuler(){}
-void EulerElevado(){}
+void s3n(){
+    double angulo;
+    double res;
+    printf("Selecione o angulo:");
+    scanf("%lf", angulo);
+    // Transformar o angulo em radianos, visto que, a função seno só funciona com eles.
+    sin(angulo);
+}
+void c0s(){
+    double angulo;
+    double res;
+    printf("Selecione o angulo:");
+    scanf("%lf", angulo);
+    res = cos(angulo);
+    printf("%lf", res);
+}
+void t4n(){
+    double angulo;
+    double res;
+    printf("Selecione o angulo:");
+    scanf("%lf", angulo);
+    res = tan(angulo);
+    printf("%lf", res);
+}
+void secante(){
+    double angulo;
+    double res;
+    printf("Selecione o angulo:");
+    scanf("%lf", angulo);
+    res = 1/sin(angulo); 
+}
+void cossecante(){
+    double angulo;
+    double res;
+    printf("Selecione o angulo:");
+    scanf("%lf", angulo);
+    res = 1/cos(angulo); 
+}
+void contangente(){
+    double angulo;
+    double res;
+    printf("Selecione o angulo:");
+    scanf("%lf", angulo);
+    res = 1/tan(angulo); 
+}
+void logaritmo(){
+    double base;
+    double numero;
+    double res;
+    printf("Selecione a base:");
+    scanf("%lf", base);
+    printf("Selecione o numero:");
+    scanf("%lf", numero);
+    if(base > 1 && numero > 1){
+        res = log(numero) / log(base);
+    }
+    else{
+        printf("Input invalido(string ou num negativo)");
+        logaritmo();
+    }
+}
+void log_natural(){
+    double numero;
+    double res;
+    printf("Selecione o numero:");
+    scanf("%lf", numero);
+    if(numero > 1){
+    res = log(numero);
+    printf("%lf", res);
+    }
+    else{
+        printf("Selecione um input valido(Erro por string ou por numero negativo)");
+        log_natural();
+    }
+}
+void modulo(){
+    double a;
+    double res = abs(a);
+    printf("O valor absoluto de %lf eh %lf", a, res);
+}
+void dezElevadoaX(){
+    // Verificar se um NUMERO foi selecionado
+    double expoente;
+    printf("10 elevado a qual numero:");
+    scanf("%lf", expoente);
+    double res = pow(10, expoente);
+}
+void vezesEuler(){
+    double a;
+    printf("Escolha um numero");
+    scanf("%lf", a);
+    double res = a*exp(1);
+}
+void EulerElevado(){
+    double a;
+    printf("Escolha um expoente");
+    scanf("%lf", a);
+    double res = exp(a);
+}
 
 void menu(){
     int escolha; 
@@ -188,13 +288,13 @@ void menu(){
         t4n();
         break;
     case 14:
-        s3nreversa();
+        secante();
         break;
     case 15:
-        c0sreversa();
+        cossecante();
         break;
     case 16:
-        t4nreversa();
+        contangente();
         break;
     case 17:
         logaritmo();
