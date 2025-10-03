@@ -2,6 +2,10 @@
 #include <math.h> 
 #include <stdlib.h> // Malloc e e free; vulgo, funções para controle de memória
 
+#define PI 3,14159265;
+
+// Definir testes para o código, verificar se o input e válido e resultados esperados
+
 // As funções não devem ter apenas dois números XD
 // Double não tem os mesmos problemas de float, isso pq double tem mais memória que o float
 // Tem que usar for, while e/ou do-while no código, só lembrando
@@ -14,7 +18,10 @@ int tamanho; // Define o tamanho que será mudado, tornando o array dinamico
 int ab32(){
     printf("Tamanho do array:");
     scanf("%d", &tamanho); // pede o tamanho do array para o usuário
-
+    if(tamanho < 0 || tamanho == 0){
+        printf("Selecione um tamanho maior que 0");
+        return 1;
+    } else{
     array = (int *) malloc(tamanho * sizeof(int)); // Alocação dinamica de memoria, aprofundar em malloc
 
     if(array == NULL){
@@ -22,7 +29,7 @@ int ab32(){
         return 1; // Botar return 1 quando for indicar algum erro, na estrutura if + printf + return 1
     }
     printf("Digite %d elementos:\n ",tamanho);
-}
+}}
 
 void soma(){
     double res = 0;
@@ -68,7 +75,11 @@ void dividir(){
     for(int i = 0; i < tamanho; i++){
         printf("Elemento %d ", i + 1);
         scanf("%d", &array[i]);
+        if(array[i] == 0){
+            printf("Não divida por zero.");
+        } else{
         res /= array[i];
+        }
     }
     printf("Divisao = %lf", res);
     free(array);
@@ -103,7 +114,11 @@ void raiz2(){
     printf("Base:");
     scanf("%lf", a);
     res = pow(a, 0.5);
+    if(a < 0){
+        printf("Nao trataremos numeros complexos ou strings");
+    } else{
     printf("Resultado:%lf", res);
+    }
 }
 void raiz3(){
     double res;
@@ -111,11 +126,16 @@ void raiz3(){
     double b = 0.33333;
     printf("Base:");
     scanf("%lf", a);
+    if(a < 0){
+        printf("Nao trataremos numeros complexos ou strings");
+    } else {
     res = pow(a, b);
     printf("Resultado:%lf", res);
+    }
     // Consertar o fato de não conseguir usar 1/3 como expoente
 }
 void potenciareversa(){
+    // Add verificação se a ou b não são strings
     double res;
     double a;
     double b;
@@ -143,47 +163,62 @@ void fatorial(){
 void s3n(){
     double angulo;
     double res;
+    double c;
     printf("Selecione o angulo:");
     scanf("%lf", angulo);
-    // Transformar o angulo em radianos, visto que, a função seno só funciona com eles.
-    sin(angulo);
+    res = angulo/PI; // Definindo radianos
+    c = sin(res);
+    printf("%lf",c);
 }
 void c0s(){
     double angulo;
     double res;
+    double c;
     printf("Selecione o angulo:");
     scanf("%lf", angulo);
-    res = cos(angulo);
-    printf("%lf", res);
+    res = angulo/PI; // Definindo radianos
+    c = cos(res);
+    printf("%lf",c);
 }
 void t4n(){
     double angulo;
     double res;
+    double c;
     printf("Selecione o angulo:");
     scanf("%lf", angulo);
-    res = tan(angulo);
-    printf("%lf", res);
+    res = angulo/PI; // Definindo radianos
+    c = tan(res);
+    printf("%lf",c);
 }
 void secante(){
     double angulo;
     double res;
+    double c;
     printf("Selecione o angulo:");
     scanf("%lf", angulo);
-    res = 1/sin(angulo); 
+    res = angulo/PI; // Definindo radianos
+    c = 1/sin(res);
+    printf("%lf",c);
 }
 void cossecante(){
     double angulo;
     double res;
+    double c;
     printf("Selecione o angulo:");
     scanf("%lf", angulo);
-    res = 1/cos(angulo); 
+    res = angulo/PI; // Definindo radianos
+    c = 1/cos(res);
+    printf("%lf",c);
 }
 void contangente(){
     double angulo;
     double res;
+    double c;
     printf("Selecione o angulo:");
     scanf("%lf", angulo);
-    res = 1/tan(angulo); 
+    res = angulo/PI; // Definindo radianos
+    c = 1/tan(res);
+    printf("%lf",c);
 }
 void logaritmo(){
     double base;
@@ -239,6 +274,8 @@ void EulerElevado(){
     scanf("%lf", a);
     double res = exp(a);
 }
+
+// Add mais duas funções
 
 void menu(){
     int escolha; 
