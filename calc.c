@@ -50,7 +50,7 @@ void subtrair(){
     for(int i = 0; i < tamanho; i++){
         printf("Elemento %d: ", i + 1);
         scanf("%d", &array[i]);
-        // res -= array[i]; // subtrai os elementos à soma, um por um
+        res -= array[i]; // subtrai os elementos à soma, um por um
     }
 
     printf("Subtracao = %lf", res);
@@ -58,7 +58,7 @@ void subtrair(){
 }
 
 void multiplicar(){
-    double res = 0;
+    double res = 1;
     ab32();
     for(int i = 0; i < tamanho; i++){
         printf("Elemento %d ", i + 1);
@@ -70,7 +70,7 @@ void multiplicar(){
 }
 
 void dividir(){
-    double res = 0;
+    double res = 1;
     ab32();
     for(int i = 0; i < tamanho; i++){
         printf("Elemento %d ", i + 1);
@@ -101,9 +101,9 @@ void potencia(){
     double a;
     double b;
     printf("Base:\n");
-    scanf("%lf", a);
+    scanf("%lf", &a);
     printf("Expoente");
-    scanf("%lf", b);
+    scanf("%lf", &b);
     res = pow(a,b);
     printf("Resultado:%lf", res);
     // Tentar fazer sem a biblioteca
@@ -112,7 +112,7 @@ void raiz2(){
     double res;
     double a;
     printf("Base:");
-    scanf("%lf", a);
+    scanf("%lf", &a);
     res = pow(a, 0.5);
     if(a < 0){
         printf("Nao trataremos numeros complexos ou strings");
@@ -140,7 +140,7 @@ void potenciareversa(){
     double a;
     double b;
     printf("Base:");
-    scanf("%lf", a);
+    scanf("%lf", &a);
     printf("Expoente:");
     scanf("%lf", &b);
     res = pow(a, -b);
@@ -150,7 +150,7 @@ void fatorial(){
     double res;
     int a;
     printf("Selecione um numero");
-    scanf("%lf", a);
+    scanf("%lf", &a);
     res = tgamma(a+1);
     if (a < 0){
         printf("Fatorial nao eh feito pra numeros negativos");
@@ -165,7 +165,7 @@ void s3n(){
     double res;
     double c;
     printf("Selecione o angulo:");
-    scanf("%lf", angulo);
+    scanf("%lf", &angulo);
     res = angulo/PI; // Definindo radianos
     c = sin(res);
     printf("%lf",c);
@@ -175,7 +175,7 @@ void c0s(){
     double res;
     double c;
     printf("Selecione o angulo:");
-    scanf("%lf", angulo);
+    scanf("%lf", &angulo);
     res = angulo/PI; // Definindo radianos
     c = cos(res);
     printf("%lf",c);
@@ -185,7 +185,7 @@ void t4n(){
     double res;
     double c;
     printf("Selecione o angulo:");
-    scanf("%lf", angulo);
+    scanf("%lf", &angulo);
     res = angulo/PI; // Definindo radianos
     c = tan(res);
     printf("%lf",c);
@@ -195,7 +195,7 @@ void secante(){
     double res;
     double c;
     printf("Selecione o angulo:");
-    scanf("%lf", angulo);
+    scanf("%lf", &angulo);
     res = angulo/PI; // Definindo radianos
     c = 1/sin(res);
     printf("%lf",c);
@@ -205,7 +205,7 @@ void cossecante(){
     double res;
     double c;
     printf("Selecione o angulo:");
-    scanf("%lf", angulo);
+    scanf("%lf", &angulo);
     res = angulo/PI; // Definindo radianos
     c = 1/cos(res);
     printf("%lf",c);
@@ -215,7 +215,7 @@ void contangente(){
     double res;
     double c;
     printf("Selecione o angulo:");
-    scanf("%lf", angulo);
+    scanf("%lf", &angulo);
     res = angulo/PI; // Definindo radianos
     c = 1/tan(res);
     printf("%lf",c);
@@ -225,9 +225,9 @@ void logaritmo(){
     double numero;
     double res;
     printf("Selecione a base:");
-    scanf("%lf", base);
+    scanf("%lf", &base);
     printf("Selecione o numero:");
-    scanf("%lf", numero);
+    scanf("%lf", &numero);
     if(base > 1 && numero > 1){
         res = log(numero) / log(base);
     }
@@ -240,7 +240,7 @@ void log_natural(){
     double numero;
     double res;
     printf("Selecione o numero:");
-    scanf("%lf", numero);
+    scanf("%lf", &numero);
     if(numero > 1){
     res = log(numero);
     printf("%lf", res);
@@ -252,6 +252,8 @@ void log_natural(){
 }
 void modulo(){
     double a;
+    printf("Selecione um numero:");
+    scanf("%lf", a);
     double res = abs(a);
     printf("O valor absoluto de %lf eh %lf", a, res);
 }
@@ -259,19 +261,19 @@ void dezElevadoaX(){
     // Verificar se um NUMERO foi selecionado
     double expoente;
     printf("10 elevado a qual numero:");
-    scanf("%lf", expoente);
+    scanf("%lf", &expoente);
     double res = pow(10, expoente);
 }
 void vezesEuler(){
     double a;
     printf("Escolha um numero");
-    scanf("%lf", a);
+    scanf("%lf", &a);
     double res = a*exp(1);
 }
 void EulerElevado(){
     double a;
     printf("Escolha um expoente");
-    scanf("%lf", a);
+    scanf("%lf", &a);
     double res = exp(a);
 }
 
