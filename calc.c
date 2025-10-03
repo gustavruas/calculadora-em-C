@@ -2,7 +2,7 @@
 #include <math.h> 
 #include <stdlib.h> // Malloc e e free; vulgo, funções para controle de memória
 
-#define PI 3,14159265;
+#define PI 3.14159265;
 
 // Definir testes para o código, verificar se o input e válido e resultados esperados
 
@@ -79,6 +79,8 @@ void dividir(){
             printf("Não divida por zero.");
         } else{
         res /= array[i];
+        // Consertar esse função, atualmente ela faz 1/input/input...
+        // Invés de input/input/input...
         }
     }
     printf("Divisao = %lf", res);
@@ -125,7 +127,7 @@ void raiz3(){
     double a;
     double b = 0.33333;
     printf("Base:");
-    scanf("%lf", a);
+    scanf("%lf", &a);
     if(a < 0){
         printf("Nao trataremos numeros complexos ou strings");
     } else {
@@ -150,7 +152,7 @@ void fatorial(){
     double res;
     int a;
     printf("Selecione um numero");
-    scanf("%lf", &a);
+    scanf("%d", &a);
     res = tgamma(a+1);
     if (a < 0){
         printf("Fatorial nao eh feito pra numeros negativos");
@@ -251,11 +253,15 @@ void log_natural(){
     }
 }
 void modulo(){
-    double a;
+    int a;
     printf("Selecione um numero:");
-    scanf("%lf", a);
-    double res = abs(a);
-    printf("O valor absoluto de %lf eh %lf", a, res);
+    scanf("%d", &a);
+    if (a > 0 || a < 0 || a==0){
+      int res = abs(a);
+      printf("O valor absoluto de %d eh %d", &a, &res);
+    } else {
+        printf("Numero invalido");
+    }
 }
 void dezElevadoaX(){
     // Verificar se um NUMERO foi selecionado
@@ -263,18 +269,21 @@ void dezElevadoaX(){
     printf("10 elevado a qual numero:");
     scanf("%lf", &expoente);
     double res = pow(10, expoente);
+    printf("%lf", &res);
 }
 void vezesEuler(){
     double a;
     printf("Escolha um numero");
     scanf("%lf", &a);
     double res = a*exp(1);
+    printf("%lf", &res);
 }
 void EulerElevado(){
     double a;
     printf("Escolha um expoente");
     scanf("%lf", &a);
     double res = exp(a);
+    printf("%lf", res);
 }
 
 // Add mais duas funções
