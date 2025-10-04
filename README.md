@@ -7,15 +7,15 @@
 ## Como instalar, compilar e executar o código
 ### Não é necessário a instalação desse programa, apenas o download e compilação; dito isso:
 ### Instalação: 
-```git
+```bash
 git clone "https://github.com/gustavruas/calculadora-em-C"
 ```
 ### Compilação: 
-```C
+```c
 gcc calc.c -o executavel
 ```
 ### Execução:
-```
+```bash
 ./executavel
 ```
 ## Exemplos de uso:
