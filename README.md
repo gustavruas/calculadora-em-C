@@ -11,7 +11,7 @@
 git clone "https://github.com/gustavruas/calculadora-em-C"
 ```
 ### Compilação: 
-```c
+```bash
 gcc calc.c -o executavel
 ```
 ### Execução:
