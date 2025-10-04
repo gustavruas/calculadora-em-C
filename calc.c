@@ -2,6 +2,10 @@
 #include <math.h> 
 #include <stdlib.h> // Malloc e e free; vulgo, funções para controle de memória
 
+#define PI 3.14159265;
+
+// Definir testes para o código, verificar se o input e válido e resultados esperados
+
 // As funções não devem ter apenas dois números XD
 // Double não tem os mesmos problemas de float, isso pq double tem mais memória que o float
 // Tem que usar for, while e/ou do-while no código, só lembrando
@@ -14,7 +18,10 @@ int tamanho; // Define o tamanho que será mudado, tornando o array dinamico
 int ab32(){
     printf("Tamanho do array:");
     scanf("%d", &tamanho); // pede o tamanho do array para o usuário
-
+    if(tamanho < 0 || tamanho == 0){
+        printf("Selecione um tamanho maior que 0");
+        return 1;
+    } else{
     array = (int *) malloc(tamanho * sizeof(int)); // Alocação dinamica de memoria, aprofundar em malloc
 
     if(array == NULL){
@@ -22,7 +29,7 @@ int ab32(){
         return 1; // Botar return 1 quando for indicar algum erro, na estrutura if + printf + return 1
     }
     printf("Digite %d elementos:\n ",tamanho);
-}
+}}
 
 void soma(){
     double res = 0;
@@ -43,7 +50,7 @@ void subtrair(){
     for(int i = 0; i < tamanho; i++){
         printf("Elemento %d: ", i + 1);
         scanf("%d", &array[i]);
-        // res -= array[i]; // subtrai os elementos à soma, um por um
+        res -= array[i]; // subtrai os elementos à soma, um por um
     }
 
     printf("Subtracao = %lf", res);
@@ -51,7 +58,7 @@ void subtrair(){
 }
 
 void multiplicar(){
-    double res = 0;
+    double res = 1;
     ab32();
     for(int i = 0; i < tamanho; i++){
         printf("Elemento %d ", i + 1);
@@ -63,12 +70,18 @@ void multiplicar(){
 }
 
 void dividir(){
-    double res = 0;
+    double res;
     ab32();
     for(int i = 0; i < tamanho; i++){
         printf("Elemento %d ", i + 1);
         scanf("%d", &array[i]);
+        if(array[i] == 0){
+            printf("Não divida por zero.");
+        } else{
         res /= array[i];
+        // Consertar esse função, atualmente ela faz 1/input/input...
+        // Invés de input/input/input...
+        }
     }
     printf("Divisao = %lf", res);
     free(array);
@@ -90,9 +103,9 @@ void potencia(){
     double a;
     double b;
     printf("Base:\n");
-    scanf("%lf", a);
+    scanf("%lf", &a);
     printf("Expoente");
-    scanf("%lf", b);
+    scanf("%lf", &b);
     res = pow(a,b);
     printf("Resultado:%lf", res);
     // Tentar fazer sem a biblioteca
@@ -101,26 +114,35 @@ void raiz2(){
     double res;
     double a;
     printf("Base:");
-    scanf("%lf", a);
+    scanf("%lf", &a);
     res = pow(a, 0.5);
+    if(a < 0){
+        printf("Nao trataremos numeros complexos ou strings");
+    } else{
     printf("Resultado:%lf", res);
+    }
 }
 void raiz3(){
     double res;
     double a;
     double b = 0.33333;
     printf("Base:");
-    scanf("%lf", a);
+    scanf("%lf", &a);
+    if(a < 0){
+        printf("Nao trataremos numeros complexos ou strings");
+    } else {
     res = pow(a, b);
     printf("Resultado:%lf", res);
+    }
     // Consertar o fato de não conseguir usar 1/3 como expoente
 }
 void potenciareversa(){
+    // Add verificação se a ou b não são strings
     double res;
     double a;
     double b;
     printf("Base:");
-    scanf("%lf", a);
+    scanf("%lf", &a);
     printf("Expoente:");
     scanf("%lf", &b);
     res = pow(a, -b);
@@ -130,7 +152,7 @@ void fatorial(){
     double res;
     int a;
     printf("Selecione um numero");
-    scanf("%lf", a);
+    scanf("%d", &a);
     res = tgamma(a+1);
     if (a < 0){
         printf("Fatorial nao eh feito pra numeros negativos");
@@ -143,56 +165,71 @@ void fatorial(){
 void s3n(){
     double angulo;
     double res;
+    double c;
     printf("Selecione o angulo:");
-    scanf("%lf", angulo);
-    // Transformar o angulo em radianos, visto que, a função seno só funciona com eles.
-    sin(angulo);
+    scanf("%lf", &angulo);
+    res = angulo/PI; // Definindo radianos
+    c = sin(res);
+    printf("%lf",c);
 }
 void c0s(){
     double angulo;
     double res;
+    double c;
     printf("Selecione o angulo:");
-    scanf("%lf", angulo);
-    res = cos(angulo);
-    printf("%lf", res);
+    scanf("%lf", &angulo);
+    res = angulo/PI; // Definindo radianos
+    c = cos(res);
+    printf("%lf",c);
 }
 void t4n(){
     double angulo;
     double res;
+    double c;
     printf("Selecione o angulo:");
-    scanf("%lf", angulo);
-    res = tan(angulo);
-    printf("%lf", res);
+    scanf("%lf", &angulo);
+    res = angulo/PI; // Definindo radianos
+    c = tan(res);
+    printf("%lf",c);
 }
 void secante(){
     double angulo;
     double res;
+    double c;
     printf("Selecione o angulo:");
-    scanf("%lf", angulo);
-    res = 1/sin(angulo); 
+    scanf("%lf", &angulo);
+    res = angulo/PI; // Definindo radianos
+    c = 1/sin(res);
+    printf("%lf",c);
 }
 void cossecante(){
     double angulo;
     double res;
+    double c;
     printf("Selecione o angulo:");
-    scanf("%lf", angulo);
-    res = 1/cos(angulo); 
+    scanf("%lf", &angulo);
+    res = angulo/PI; // Definindo radianos
+    c = 1/cos(res);
+    printf("%lf",c);
 }
 void contangente(){
     double angulo;
     double res;
+    double c;
     printf("Selecione o angulo:");
-    scanf("%lf", angulo);
-    res = 1/tan(angulo); 
+    scanf("%lf", &angulo);
+    res = angulo/PI; // Definindo radianos
+    c = 1/tan(res);
+    printf("%lf",c);
 }
 void logaritmo(){
     double base;
     double numero;
     double res;
     printf("Selecione a base:");
-    scanf("%lf", base);
+    scanf("%lf", &base);
     printf("Selecione o numero:");
-    scanf("%lf", numero);
+    scanf("%lf", &numero);
     if(base > 1 && numero > 1){
         res = log(numero) / log(base);
     }
@@ -205,7 +242,7 @@ void log_natural(){
     double numero;
     double res;
     printf("Selecione o numero:");
-    scanf("%lf", numero);
+    scanf("%lf", &numero);
     if(numero > 1){
     res = log(numero);
     printf("%lf", res);
@@ -216,35 +253,76 @@ void log_natural(){
     }
 }
 void modulo(){
-    double a;
-    double res = abs(a);
-    printf("O valor absoluto de %lf eh %lf", a, res);
+    int a;
+    printf("Selecione um numero:");
+    scanf("%d", &a);
+    if (a > 0 || a < 0 || a==0){
+      int res = abs(a);
+      printf("O valor absoluto de %d eh %d", a, res);
+    } else {
+        printf("Numero invalido");
+    }
 }
 void dezElevadoaX(){
     // Verificar se um NUMERO foi selecionado
     double expoente;
     printf("10 elevado a qual numero:");
-    scanf("%lf", expoente);
+    scanf("%lf", &expoente);
     double res = pow(10, expoente);
+    printf("%lf", res);
 }
 void vezesEuler(){
     double a;
     printf("Escolha um numero");
-    scanf("%lf", a);
+    scanf("%lf", &a);
     double res = a*exp(1);
+    printf("%lf", res);
 }
 void EulerElevado(){
     double a;
     printf("Escolha um expoente");
-    scanf("%lf", a);
+    scanf("%lf", &a);
     double res = exp(a);
+    printf("%lf", res);
+}
+
+void media(){
+    double res;
+    ab32();
+    for(int i = 0; i < tamanho; i++){
+        printf("Elemento %d ", i + 1);
+        scanf("%d", &array[i]);
+        if(array[i] == 0){
+            printf("Não divida por zero.");
+        } else{
+           res += array[i]; 
+     }    
+     } 
+     double d = res/tamanho;
+     printf("%lf", d);
+}
+
+void maximo(){
+    double a;
 }
 
 void menu(){
     int escolha; 
-    
-    printf("Selecione uma funcao:");
-    scanf("%d", &escolha);
+        printf("\n+-------------------------------------------------------------+\n");
+        printf("|  1. Soma           |  2. Subtrair      |  3. Multiplicar    |\n");
+        printf("|  4. Dividir        |  5. Porcentagem   |  6. Potencia       |\n");
+        printf("|  7. Raiz quadrada  |  8. Raiz cubica   |  9. Pot. reversa   |\n");
+        printf("| 10. Fatorial       | 11. Seno          | 12. Cosseno        |\n");
+        printf("| 13. Tangente       | 14. Secante       | 15. Cossecante     |\n");
+        printf("| 16. Cotangente     | 17. Log base N    | 18. Log natural    |\n");
+        printf("| 19. Modulo         | 20. 10^X          | 21. X * Euler      |\n");
+        printf("| 22. Euler^X        | 23. Media         | 24. Max            |\n");
+        printf("|                    0. Sair                                  |\n");
+        printf("+-------------------------------------------------------------+\n");
+        
+        printf("Escolha uma opcao:");        
+
+        scanf("%d", &escolha);
 
     switch (escolha)
     {
@@ -315,8 +393,10 @@ void menu(){
         EulerElevado();
         break;
     case 23:
+        media();
         break;
     case 24:
+        maximo();
         break;
     default:
         printf("Selecione alguma funcao do menu!\n");
@@ -326,7 +406,6 @@ void menu(){
 }
 
 int main(){
-    // O arquivo de vdd já foi criado, esse arquivo é de teste para criar funções matemáticas
     menu();
     return 0;
 }
