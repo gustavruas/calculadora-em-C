@@ -6,10 +6,6 @@
 
 // Definir testes para o código, verificar se o input e válido e resultados esperados
 
-// As funções não devem ter apenas dois números XD
-// Double não tem os mesmos problemas de float, isso pq double tem mais memória que o float
-// Tem que usar for, while e/ou do-while no código, só lembrando
-
 // Dar um jeito de usar o array para juntar funções
 
 int *array; // Aponta pro endereço da memória, famoso ponteiro
@@ -125,7 +121,7 @@ void raiz2(){
 void raiz3(){
     double res;
     double a;
-    double b = 0.33333;
+    double b = 1.0/3.0;
     printf("Base:");
     scanf("%lf", &a);
     if(a < 0){
@@ -134,7 +130,6 @@ void raiz3(){
     res = pow(a, b);
     printf("Resultado:%lf", res);
     }
-    // Consertar o fato de não conseguir usar 1/3 como expoente
 }
 void potenciareversa(){
     // Add verificação se a ou b não são strings
@@ -292,18 +287,24 @@ void media(){
     for(int i = 0; i < tamanho; i++){
         printf("Elemento %d ", i + 1);
         scanf("%d", &array[i]);
-        if(array[i] == 0){
-            printf("Não divida por zero.");
-        } else{
            res += array[i]; 
      }    
-     } 
      double d = res/tamanho;
      printf("%lf", d);
 }
 
 void maximo(){
-    double a;
+    ab32();
+    int max_val = array[0];
+    for(int i = 1; i < tamanho; i++){
+        printf("Elemento %d: ", i + 1);
+        scanf("%d", &array[i]);
+        if(array[i] > max_val){
+            max_val = array[i];
+        }
+    }
+    printf("O valor maximo eh: %d\n", max_val);
+    free(array);
 }
 
 void menu(){
