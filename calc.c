@@ -4,9 +4,11 @@
 
 #define PI 3.14159265
 
-// Definir testes para o código, verificar se o input e válido e resultados esperados
-
+// To-do abaixo:
+// Definir testes para o código, verificar se o input é válido e resultados são os esperados
 // Dar um jeito de usar o array para juntar funções
+// Salvar histórico de operações
+//
 
 int *array; // Aponta pro endereço da memória, famoso ponteiro
 int tamanho; // Define o tamanho que será mudado, tornando o array dinamico
@@ -25,16 +27,25 @@ int ab32(){
         return 1; // Botar return 1 quando for indicar algum erro, na estrutura if + printf + return 1
     }
     printf("Digite %d elementos:\n ",tamanho);
+    return 0;
 }}
 
-void soma(){
-    double res = 0;
-    ab32();
+void ler_array(){
     for(int i = 0; i < tamanho; i++){
         printf("Elemento %d: ", i + 1); // o %d é qualquer decimal que será representado depois da vírgula
         scanf("%d", &array[i]); // Não entendi o "&"
-        res += array[i]; // Soma os elementos à soma, um por um
     }
+}
+void soma(){
+    double res = 0;
+    ab32();
+    if(ab32() != 0) { // Verifica se o return da ab32 dá 0 ou 1(vulgo sucesso ou erro)
+        return;
+    }
+    ler_array();
+    for(int i=0; i<tamanho; i++){
+        res += array[i]; // Soma os elementos à soma, um por um
+    } 
 
     printf("Soma = %lf\n", res);
     free(array); // Libera memória
@@ -43,10 +54,12 @@ void soma(){
 void subtrair(){
     double res = 0;
     ab32();
+    if(ab32() != 0) {      
+       return;
+    }
+    ler_array();
     for(int i = 0; i < tamanho; i++){
-        printf("Elemento %d: ", i + 1);
-        scanf("%d", &array[i]);
-        res -= array[i]; // subtrai os elementos à soma, um por um
+       res -= array[i]; // subtrai os elementos à soma, um por um
     }
 
     printf("Subtracao = %lf", res);
@@ -56,9 +69,11 @@ void subtrair(){
 void multiplicar(){
     double res = 1;
     ab32();
+    if(ab32() != 0) {      
+        return;
+    }
+    ler_array();
     for(int i = 0; i < tamanho; i++){
-        printf("Elemento %d ", i + 1);
-        scanf("%d", &array[i]);
         res *= array[i]; 
     }
     printf("Multiplicacao = %lf", res);
@@ -67,10 +82,12 @@ void multiplicar(){
 
 void dividir(){
     ab32();
-    double res = array[0]; // Definindo como primeiro item pra ficar como input/input ao invés de 1/input/input...
+    if(ab32() != 0) {      
+        return;
+    }
+    double res = (double)array[0]; // Definindo como primeiro item pra ficar como input/input ao invés de 1/input/input... Alías também convertendo o seu tipo int -> double
+    ler_array(); 
     for(int i = 0; i < tamanho; i++){
-        printf("Elemento %d ", i + 1);
-        scanf("%d", &array[i]);
         if(array[i] == 0){
             printf("Não divida por zero.");
         } else{
@@ -161,7 +178,7 @@ void s3n(){
     double c;
     printf("Selecione o angulo:");
     scanf("%lf", &angulo);
-    res = angulo/PI; // Definindo radianos
+    res = angulo*PI/180.0; // Definindo radianos
     c = sin(res);
     printf("%lf",c);
 }
@@ -171,7 +188,7 @@ void c0s(){
     double c;
     printf("Selecione o angulo:");
     scanf("%lf", &angulo);
-    res = angulo/PI; // Definindo radianos
+    res = angulo*PI/180.0; // Definindo radianos
     c = cos(res);
     printf("%lf",c);
 }
@@ -181,7 +198,7 @@ void t4n(){
     double c;
     printf("Selecione o angulo:");
     scanf("%lf", &angulo);
-    res = angulo/PI; // Definindo radianos
+    res = angulo*PI/180.0; // Definindo radianos
     c = tan(res);
     printf("%lf",c);
 }
@@ -191,7 +208,7 @@ void secante(){
     double c;
     printf("Selecione o angulo:");
     scanf("%lf", &angulo);
-    res = angulo/PI; // Definindo radianos
+    res = angulo*PI/180.0; // Definindo radianos
     c = 1/sin(res);
     printf("%lf",c);
 }
@@ -201,7 +218,7 @@ void cossecante(){
     double c;
     printf("Selecione o angulo:");
     scanf("%lf", &angulo);
-    res = angulo/PI; // Definindo radianos
+    res = angulo*PI/180.0; // Definindo radianos
     c = 1/cos(res);
     printf("%lf",c);
 }
@@ -211,7 +228,7 @@ void contangente(){
     double c;
     printf("Selecione o angulo:");
     scanf("%lf", &angulo);
-    res = angulo/PI; // Definindo radianos
+    res = angulo*PI/180.0; // Definindo radianos
     c = 1/tan(res);
     printf("%lf",c);
 }
@@ -228,7 +245,7 @@ void logaritmo(){
     }
     else{
         printf("Input invalido(string ou num negativo)");
-        logaritmo();
+        return;
     }
 }
 void log_natural(){
@@ -242,7 +259,7 @@ void log_natural(){
     }
     else{
         printf("Selecione um input valido(Erro por string ou por numero negativo)");
-        log_natural();
+        return;
     }
 }
 void modulo(){
@@ -282,9 +299,11 @@ void EulerElevado(){
 void media(){
     double res;
     ab32();
+    if(ab32() != 0) {      
+        return;
+    }
+    ler_array();
     for(int i = 0; i < tamanho; i++){
-        printf("Elemento %d ", i + 1);
-        scanf("%d", &array[i]);
            res += array[i]; 
      }    
      double d = res/tamanho;
@@ -293,10 +312,12 @@ void media(){
 
 void maximo(){
     ab32();
+    if(ab32() != 0) {      
+        return;
+    }
+    ler_array();
     int max_val = array[0];
     for(int i = 1; i < tamanho; i++){
-        printf("Elemento %d: ", i + 1);
-        scanf("%d", &array[i]);
         if(array[i] > max_val){
             max_val = array[i];
         }
@@ -400,7 +421,7 @@ void menu(){
     default:
         printf("Selecione alguma funcao do menu! Fechando programa.\n");
         break;
-    }
+    } while (escolha !=0); // Enquanto a escolha não for 0(vulgo sair do menu), faça tudo isso
 }
 
 int main(){
