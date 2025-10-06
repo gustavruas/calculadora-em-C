@@ -2,7 +2,7 @@
 #include <math.h> 
 #include <stdlib.h> // Malloc e e free; vulgo, funções para controle de memória
 
-#define PI 3.14159265;
+#define PI 3.14159265
 
 // Definir testes para o código, verificar se o input e válido e resultados esperados
 
@@ -66,8 +66,8 @@ void multiplicar(){
 }
 
 void dividir(){
-    double res;
     ab32();
+    double res = array[0]; // Definindo como primeiro item pra ficar como input/input ao invés de 1/input/input...
     for(int i = 0; i < tamanho; i++){
         printf("Elemento %d ", i + 1);
         scanf("%d", &array[i]);
@@ -75,8 +75,6 @@ void dividir(){
             printf("Não divida por zero.");
         } else{
         res /= array[i];
-        // Consertar esse função, atualmente ela faz 1/input/input...
-        // Invés de input/input/input...
         }
     }
     printf("Divisao = %lf", res);
@@ -400,8 +398,7 @@ void menu(){
         maximo();
         break;
     default:
-        printf("Selecione alguma funcao do menu!\n");
-        menu();
+        printf("Selecione alguma funcao do menu! Fechando programa.\n");
         break;
     }
 }
