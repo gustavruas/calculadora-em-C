@@ -256,6 +256,7 @@ void logaritmo(){
     scanf("%lf", &numero);
     if(base > 1 && numero > 1){
         res = log(numero) / log(base);
+        printf("%lf", res);
     }
     else{
         printf("Input invalido(string ou num negativo)");
@@ -302,7 +303,6 @@ void dezElevadoaX(){
     free(array);
 }
 void vezesEuler(){
-double a;
     printf("Digite os multiplicadores no proximo prompt:\n");
     double res = 1;
     if(ab32() != 0) {       
@@ -317,7 +317,6 @@ double a;
     free(array);
 }
 void EulerElevado(){
-double a;
     printf("Digite os expoentes no proximo prompt:");
     double res = 1;
     if(ab32() != 0) {       
