@@ -22,4 +22,4 @@ gcc calc.c -o executavel
 ## Exemplos de uso:
 ### Soma, subtração etc // Add prints do programa
 ## Informações adicionais que ajudem na compreensão do projeto // Nem ideia do que add aqui
-### Participantes: Gustavo Vasconcelos Ruas
+### Participantes: Gustavo Vasconcelos Ruas, Davi Carvalho Boueres
