@@ -1,12 +1,12 @@
-# Calc em C
-
-## O que ela faz:
-### Calculadora cientifica com 24 funções em C, projeto de faculdade. // Aprofundar
+# Calc em C README
+### Calculadora cientifica com 24 funções em C, possui funções aritimeticas básicas, funções trigonometricas, funções como média e máximo etc.
 ## Quais tecnologias e recursos foram utilizados:
-### Documentação da linguagem C, biblioteca "<math.h>" para ter funções avançadas em matemática, biblioteca "<stdlib.h>" para controle de memória.
-### Por óbvio: Instale o gcc.
-## Como instalar, compilar e executar o código
-### Não é necessário a instalação desse programa, apenas o download e compilação; dito isso:
+* Requisitos
+  * Compilador GCC
+  * Git
+* Headers
+  * Math.h pra funções como exp() e pow()
+  * Stdlib.h pra controle de memória
 ### Instalação: 
 ```bash
 git clone "https://github.com/gustavruas/calculadora-em-C"
@@ -20,8 +20,8 @@ gcc calc.c -o executavel
 ./executavel
 ```
 ## Exemplos de uso:
-<video src="https://github.com/user-attachments/assets/c2c55ee6-e0b0-4b3e-b126-0b00d2896cb8"/>
-<video src="https://github.com/user-attachments/assets/2236a2d2-30fe-4817-b056-349b28325691"/>
-<video src="https://github.com/user-attachments/assets/a8169bfa-2d54-4855-b876-63cdeb3640df"/>
-// Add documentação
+[Vídeo demonstração 1](https://github.com/user-attachments/assets/c2c55ee6-e0b0-4b3e-b126-0b00d2896cb8)
+[Vídeo demonstração 2](https://github.com/user-attachments/assets/2236a2d2-30fe-4817-b056-349b28325691)
+[Vídeo demonstração 3](https://github.com/user-attachments/assets/a8169bfa-2d54-4855-b876-63cdeb3640df)
+
 ### Participantes: Gustavo Vasconcelos Ruas, Davi Carvalho Boueres
