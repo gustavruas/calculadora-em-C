@@ -89,7 +89,7 @@ void dividir(){
     free(array);
 }
 
-void porcentagem(){ 
+void porcentagem(){ // Define um número inicial e logo após todas as porcentagens que se multiplicaram e então multiplica pelo inicial dividido por 100
     double a;
     printf("Digite o numero base e as porcentagens no proximo prompt:");
     scanf("%lf", &a);
@@ -106,7 +106,7 @@ void porcentagem(){
     printf("Resultado:%lf", resFinal);
     free(array);
 }
-void potencia(){
+void potencia(){ // Define uma base e os expoentes(que se multiplicaram) como se fosse a^b^c^...^x
     double a;
     printf("Digite o numero base e os expoentes no proximo prompt:");
     scanf("%lf", &a);
@@ -123,7 +123,7 @@ void potencia(){
     free(array);
     // Tentar fazer sem a biblioteca
 }
-void raiz2(){
+void raiz2(){ // Mesma lógica que potência, mas nessa teremos apenas a^(x/2) ou seja, 2 números e já na forma de raiz
     if(ab32() != 0) {      
         return;
     }
@@ -139,7 +139,7 @@ void raiz2(){
     printf("Resultado:%lf", res);
     }
 }
-void raiz3(){
+void raiz3(){ // Mesma coisa, mas x/3
     if(ab32() != 0) {      
         return;
     }
@@ -150,13 +150,13 @@ void raiz3(){
     printf("Base:");
     scanf("%lf", &a);
     if(a < 0){
-        printf("Nao trataremos numeros complexos ou strings");
+        printf("Nao trataremos numeros complexos ou strings"); // Very Scary complex numbers 
     } else {
     res = pow(a, b);
     printf("Resultado:%lf", res);
     }
 }
-void potenciareversa(){
+void potenciareversa(){ // Mesma coisa, mas agora 1/(a^x)
    double a;
     printf("Digite o numero base e os expoentes no proximo prompt:");
     scanf("%lf", &a);
@@ -172,7 +172,7 @@ void potenciareversa(){
     printf("Resultado:%lf", resFinal);
     free(array);
 }
-void fatorial(){
+void fatorial(){ // Uso da função tgamma para fazer o fatorial e não utilizando números negativos, pois o fatorial dos mesmos não existe
     double res;
     int a;
     printf("Selecione um numero");
@@ -216,7 +216,7 @@ void t4n(){
     c = tan(res);
     printf("%lf",c);
 }
-void secante(){
+void secante(){ // Mesma coisa de seno, mas agora é 1/seno()
     double angulo;
     double res;
     double c;
@@ -226,7 +226,7 @@ void secante(){
     c = 1/sin(res);
     printf("%lf",c);
 }
-void cossecante(){
+void cossecante(){ // Mesma coisa de cos, mas agora é 1/cos()
     double angulo;
     double res;
     double c;
@@ -236,7 +236,7 @@ void cossecante(){
     c = 1/cos(res);
     printf("%lf",c);
 }
-void contangente(){
+void contangente(){ // Mesma coisa de tangente, mas agora é 1/tan()
     double angulo;
     double res;
     double c;
@@ -302,7 +302,7 @@ void dezElevadoaX(){
     printf("Resultado:%lf", resFinal);
     free(array);
 }
-void vezesEuler(){
+void vezesEuler(){ // Usa exp() para ter o número Euler
     printf("Digite os multiplicadores no proximo prompt:\n");
     double res = 1;
     if(ab32() != 0) {       
@@ -316,7 +316,7 @@ void vezesEuler(){
     printf("Resultado:%lf", resFinal);
     free(array);
 }
-void EulerElevado(){
+void EulerElevado(){ // Combina pow e exp para utilizar e^x
     printf("Digite os expoentes no proximo prompt:");
     double res = 1;
     if(ab32() != 0) {       
@@ -346,7 +346,7 @@ void media(){
      free(array);
 }
 
-void maximo(){
+void maximo(){ // Essa função verifica se o número anterior é menor do que o próximo, e, se for, um novo valor de max_valor surge
     if(ab32() != 0){
         return;
     }
@@ -362,7 +362,7 @@ void maximo(){
     free(array);
 }
 
-void menu(){
+void menu(){ // Menu ascii e switch simples
     int escolha; 
         printf("\n+-------------------------------------------------------------+\n");
         printf("|  1. Soma           |  2. Subtrair      |  3. Multiplicar    |\n");
