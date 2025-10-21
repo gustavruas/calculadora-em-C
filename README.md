@@ -20,6 +20,8 @@ gcc calc.c -o executavel
 ./executavel
 ```
 ## Exemplos de uso:
-### Soma, subtração etc // Add prints do programa
-## Informações adicionais que ajudem na compreensão do projeto // Nem ideia do que add aqui
+https://github.com/user-attachments/assets/c2c55ee6-e0b0-4b3e-b126-0b00d2896cb8
+https://github.com/user-attachments/assets/2236a2d2-30fe-4817-b056-349b28325691
+https://github.com/user-attachments/assets/a8169bfa-2d54-4855-b876-63cdeb3640df
+// Add documentação
 ### Participantes: Gustavo Vasconcelos Ruas, Davi Carvalho Boueres
