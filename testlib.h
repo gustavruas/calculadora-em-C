@@ -76,13 +76,13 @@ void dividir(){
     if(ab32() != 0) {       
         return;
     }
-    double res = (double)array[0]; // Definindo como primeiro item pra ficar como input/input ao invés de 1/input/input... Alías também convertendo o seu tipo int -> double
-    ler_array(); 
-    for(int i = 0; i < tamanho; i++){
-        if(array[i] == 0){
+    ler_array();
+    double res = (double)array[0]; // Definindo como primeiro item pra ficar como input/input ao invés de 1/input/input... Alías também convertendo o seu tipo int -> double 
+    for(int i = 0; i < tamanho-1; i++){
+        if(array[i+1] == 0){
             printf("Não divida por zero.");
         } else{
-        res /= array[i];
+        res /= array[i+1];
         }
     }
     printf("Divisao = %lf", res);
