@@ -1,33 +1,89 @@
 #include <stdio.h>
 #include <math.h> 
-#include <stdlib.h> // Malloc e e free; vulgo, funções para controle de memória
+#include <stdlib.h>
+#include <string.h>
 
 #define PI 3.14159265
+#define MAX_HISTORICO 100
 
-int *array; // Aponta pro endereço da memória, famoso ponteiro
-int tamanho; // Define o tamanho que será mudado, tornando o array dinamico
+int *array;
+int tamanho;
+
+// Estrutura para o histórico
+typedef struct {
+    char operacao[50];
+    char entrada[200];
+    char resultado[100];
+} RegistroHistorico;
+
+RegistroHistorico historico[MAX_HISTORICO];
+int total_historico = 0;
+
+// Função para adicionar ao histórico
+void adicionar_historico(const char* operacao, const char* entrada, double resultado) {
+    if(total_historico < MAX_HISTORICO) {
+        strcpy(historico[total_historico].operacao, operacao);
+        strcpy(historico[total_historico].entrada, entrada);
+        snprintf(historico[total_historico].resultado, 100, "%.4lf", resultado);
+        total_historico++;
+    } else {
+        // Se o histórico estiver cheio, desloca tudo uma posição e adiciona no final
+        for(int i = 0; i < MAX_HISTORICO - 1; i++) {
+            historico[i] = historico[i + 1];
+        }
+        strcpy(historico[MAX_HISTORICO - 1].operacao, operacao);
+        strcpy(historico[MAX_HISTORICO - 1].entrada, entrada);
+        snprintf(historico[MAX_HISTORICO - 1].resultado, 100, "%.4lf", resultado);
+    }
+}
+
+// Função para mostrar o histórico
+void mostrar_historico() {
+    if(total_historico == 0) {
+        printf("\n=== HISTORICO VAZIO ===\n");
+        printf("Nenhuma operacao foi realizada ainda.\n");
+        return;
+    }
+    
+    printf("\n========== HISTORICO DE CALCULOS ==========\n");
+    for(int i = 0; i < total_historico; i++) {
+        printf("%d. [%s] %s = %s\n", 
+               i + 1, 
+               historico[i].operacao, 
+               historico[i].entrada, 
+               historico[i].resultado);
+    }
+    printf("==========================================\n");
+}
+
+// Função para limpar o histórico
+void limpar_historico() {
+    total_historico = 0;
+    printf("\nHistorico limpo com sucesso!\n");
+}
 
 int ab32(){
-    printf("Tamanho do array:");
-    scanf("%d", &tamanho); // pede o tamanho do array para o usuário
-    if(tamanho < 0 || tamanho == 0){
-        printf("Selecione um tamanho maior que 0");
+    printf("Tamanho do array: ");
+    scanf("%d", &tamanho);
+    if(tamanho <= 0){
+        printf("Selecione um tamanho maior que 0\n");
         return 1;
-    } else{
-    array = (int *) malloc(tamanho * sizeof(int)); // Alocação dinamica de memoria, aprofundar em malloc
-
-    if(array == NULL){
-        printf("Erro ao alocar memoria. \n");
-        return 1; // Botar return 1 quando for indicar algum erro, na estrutura if + printf + return 1
     }
-    printf("Digite %d elementos:\n ",tamanho);
+    
+    array = (int *) malloc(tamanho * sizeof(int));
+    if(array == NULL){
+        printf("Erro ao alocar memoria.\n");
+        return 1;
+    }
+    
+    printf("Digite %d elementos:\n", tamanho);
     return 0;
-}}
+}
 
 void ler_array(){
     for(int i = 0; i < tamanho; i++){
-        printf("Elemento %d: ", i + 1); // o %d é qualquer decimal que será representado depois da vírgula
-        scanf("%d", &array[i]); // Não entendi o "&"
+        printf("Elemento %d: ", i + 1);
+        scanf("%d", &array[i]);
     }
 }
 
@@ -37,12 +93,19 @@ void soma(){
         return;
     }
     ler_array();
-    for(int i=0; i<tamanho; i++){
-        res += array[i]; // Soma os elementos à soma, um por um
-    } 
-
+    
+    char entrada[200] = "";
+    char temp[20];
+    for(int i = 0; i < tamanho; i++){
+        res += array[i];
+        snprintf(temp, 20, "%d", array[i]);
+        strcat(entrada, temp);
+        if(i < tamanho - 1) strcat(entrada, " + ");
+    }
+    
     printf("Soma = %lf\n", res);
-    free(array); // Libera memória
+    adicionar_historico("Soma", entrada, res);
+    free(array);
 }
 
 void subtrair(){
@@ -51,11 +114,18 @@ void subtrair(){
        return;
     }
     ler_array();
+    
+    char entrada[200] = "";
+    char temp[20];
     for(int i = 0; i < tamanho; i++){
-       res -= array[i]; // subtrai os elementos à soma, um por um
+       res -= array[i];
+       snprintf(temp, 20, "%d", array[i]);
+       strcat(entrada, temp);
+       if(i < tamanho - 1) strcat(entrada, " - ");
     }
-
-    printf("Subtracao = %lf", res);
+    
+    printf("Subtracao = %lf\n", res);
+    adicionar_historico("Subtracao", entrada, res);
     free(array);
 }
 
@@ -65,10 +135,18 @@ void multiplicar(){
         return;
     }
     ler_array();
+    
+    char entrada[200] = "";
+    char temp[20];
     for(int i = 0; i < tamanho; i++){
-        res *= array[i]; 
+        res *= array[i];
+        snprintf(temp, 20, "%d", array[i]);
+        strcat(entrada, temp);
+        if(i < tamanho - 1) strcat(entrada, " * ");
     }
-    printf("Multiplicacao = %lf", res);
+    
+    printf("Multiplicacao = %lf\n", res);
+    adicionar_historico("Multiplicacao", entrada, res);
     free(array);
 }
 
@@ -77,217 +155,296 @@ void dividir(){
         return;
     }
     ler_array();
-    double res = (double)array[0]; // Definindo como primeiro item pra ficar como input/input ao invés de 1/input/input... Alías também convertendo o seu tipo int -> double 
+    double res = (double)array[0];
+    
+    char entrada[200] = "";
+    char temp[20];
+    snprintf(temp, 20, "%d", array[0]);
+    strcat(entrada, temp);
+    
     for(int i = 0; i < tamanho-1; i++){
         if(array[i+1] == 0){
-            printf("Não divida por zero.");
-        } else{
-        res /= array[i+1];
+            printf("Nao divida por zero.\n");
+            free(array);
+            return;
         }
+        res /= array[i+1];
+        snprintf(temp, 20, " / %d", array[i+1]);
+        strcat(entrada, temp);
     }
-    printf("Divisao = %lf", res);
+    
+    printf("Divisao = %lf\n", res);
+    adicionar_historico("Divisao", entrada, res);
     free(array);
 }
 
-void porcentagem(){ // Define um número inicial e logo após todas as porcentagens que se multiplicaram e então multiplica pelo inicial dividido por 100
+void porcentagem(){
     double a;
-    printf("Digite o numero base e as porcentagens no proximo prompt:");
+    printf("Digite o numero base: ");
     scanf("%lf", &a);
+    printf("Digite as porcentagens:\n");
+    
     double res = 1;
     if(ab32() != 0) {       
         return;
     }
     ler_array();
+    
+    char entrada[200];
+    char temp[50];
+    snprintf(entrada, 200, "%.2lf * ", a);
+    
     for(int i = 0; i < tamanho; i++){
         res *= (array[i]/100.0);
+        snprintf(temp, 50, "%d%%", array[i]);
+        strcat(entrada, temp);
+        if(i < tamanho - 1) strcat(entrada, " * ");
     }
-    double resFinal;
-    resFinal = a*res;
-    printf("Resultado:%lf", resFinal);
+    
+    double resFinal = a * res;
+    printf("Resultado: %lf\n", resFinal);
+    adicionar_historico("Porcentagem", entrada, resFinal);
     free(array);
 }
-void potencia(){ // Define uma base e os expoentes(que se multiplicaram) como se fosse a^b^c^...^x
+
+void potencia(){
     double a;
-    printf("Digite o numero base e os expoentes no proximo prompt:");
+    printf("Digite o numero base: ");
     scanf("%lf", &a);
+    printf("Digite os expoentes:\n");
+    
     double res = 1;
     if(ab32() != 0) {       
         return;
     }
     ler_array();
+    
+    char entrada[200];
+    char temp[50];
+    snprintf(entrada, 200, "%.2lf ^ (", a);
+    
     for(int i = 0; i < tamanho; i++){
         res *= array[i];
+        snprintf(temp, 50, "%d", array[i]);
+        strcat(entrada, temp);
+        if(i < tamanho - 1) strcat(entrada, " * ");
     }
-    double resFinal = pow(a,res);
-    printf("Resultado:%lf", resFinal);
+    strcat(entrada, ")");
+    
+    double resFinal = pow(a, res);
+    printf("Resultado: %lf\n", resFinal);
+    adicionar_historico("Potencia", entrada, resFinal);
     free(array);
-    // Tentar fazer sem a biblioteca
 }
-void raiz2(){ // Mesma lógica que potência, mas nessa teremos apenas a^(x/2) ou seja, 2 números e já na forma de raiz
-    if(ab32() != 0) {      
+
+void raiz2(){
+    double a;
+    printf("Base: ");
+    scanf("%lf", &a);
+    
+    if(a < 0){
+        printf("Nao trataremos numeros complexos\n");
         return;
     }
-    ler_array();
-    double res;
-    double a;
-    printf("Base:");
-    scanf("%lf", &a);
-    res = pow(a, 0.5);
-    if(a < 0){
-        printf("Nao trataremos numeros complexos ou strings");
-    } else{
-    printf("Resultado:%lf", res);
-    }
+    
+    double res = pow(a, 0.5);
+    char entrada[100];
+    snprintf(entrada, 100, "√%.2lf", a);
+    printf("Resultado: %lf\n", res);
+    adicionar_historico("Raiz Quadrada", entrada, res);
 }
-void raiz3(){ // Mesma coisa, mas x/3
-    if(ab32() != 0) {      
+
+void raiz3(){
+    double a;
+    printf("Base: ");
+    scanf("%lf", &a);
+    
+    if(a < 0){
+        printf("Nao trataremos numeros complexos\n");
         return;
     }
-    ler_array();
-    double res;
-    double a;
-    double b = 1.0/3.0;
-    printf("Base:");
-    scanf("%lf", &a);
-    if(a < 0){
-        printf("Nao trataremos numeros complexos ou strings"); // Very Scary complex numbers 
-    } else {
-    res = pow(a, b);
-    printf("Resultado:%lf", res);
-    }
+    
+    double res = pow(a, 1.0/3.0);
+    char entrada[100];
+    snprintf(entrada, 100, "∛%.2lf", a);
+    printf("Resultado: %lf\n", res);
+    adicionar_historico("Raiz Cubica", entrada, res);
 }
-void potenciareversa(){ // Mesma coisa, mas agora 1/(a^x)
-   double a;
-    printf("Digite o numero base e os expoentes no proximo prompt:");
+
+void potenciareversa(){
+    double a;
+    printf("Digite o numero base: ");
     scanf("%lf", &a);
+    printf("Digite os expoentes:\n");
+    
     double res = 1;
     if(ab32() != 0) {       
         return;
     }
     ler_array();
+    
+    char entrada[200];
+    snprintf(entrada, 200, "%.2lf ^ -(%d", a, array[0]);
+    
     for(int i = 0; i < tamanho; i++){
         res *= array[i];
+        if(i > 0) {
+            char temp[20];
+            snprintf(temp, 20, " * %d", array[i]);
+            strcat(entrada, temp);
+        }
     }
-    double resFinal = pow(a,-res);
-    printf("Resultado:%lf", resFinal);
+    strcat(entrada, ")");
+    
+    double resFinal = pow(a, -res);
+    printf("Resultado: %lf\n", resFinal);
+    adicionar_historico("Pot. Reversa", entrada, resFinal);
     free(array);
 }
-void fatorial(){ // Uso da função tgamma para fazer o fatorial e não utilizando números negativos, pois o fatorial dos mesmos não existe
-    double res;
+
+void fatorial(){
     int a;
-    printf("Selecione um numero");
+    printf("Selecione um numero: ");
     scanf("%d", &a);
-    res = tgamma(a+1);
-    if (a < 0){
-        printf("Fatorial nao eh feito pra numeros negativos");
+    
+    if(a < 0){
+        printf("Fatorial nao eh feito pra numeros negativos\n");
+        return;
     }
-    else{
-    printf("Fatorial de %d é: %lf\n", a, res);
-    }
+    
+    double res = tgamma(a + 1);
+    char entrada[50];
+    snprintf(entrada, 50, "%d!", a);
+    printf("Fatorial de %d eh: %lf\n", a, res);
+    adicionar_historico("Fatorial", entrada, res);
 }
 
 void s3n(){
-    double angulo;
-    double res;
-    double c;
-    printf("Selecione o angulo:");
+    double angulo, res, c;
+    printf("Selecione o angulo: ");
     scanf("%lf", &angulo);
-    res = angulo*PI/180.0; // Definindo radianos
+    res = angulo * PI / 180.0;
     c = sin(res);
-    printf("%lf",c);
+    
+    char entrada[50];
+    snprintf(entrada, 50, "sen(%.2lf°)", angulo);
+    printf("Seno: %lf\n", c);
+    adicionar_historico("Seno", entrada, c);
 }
+
 void c0s(){
-    double angulo;
-    double res;
-    double c;
-    printf("Selecione o angulo:");
+    double angulo, res, c;
+    printf("Selecione o angulo: ");
     scanf("%lf", &angulo);
-    res = angulo*PI/180.0; // Definindo radianos
+    res = angulo * PI / 180.0;
     c = cos(res);
-    printf("%lf",c);
+    
+    char entrada[50];
+    snprintf(entrada, 50, "cos(%.2lf°)", angulo);
+    printf("Cosseno: %lf\n", c);
+    adicionar_historico("Cosseno", entrada, c);
 }
+
 void t4n(){
-    double angulo;
-    double res;
-    double c;
-    printf("Selecione o angulo:");
+    double angulo, res, c;
+    printf("Selecione o angulo: ");
     scanf("%lf", &angulo);
-    res = angulo*PI/180.0; // Definindo radianos
+    res = angulo * PI / 180.0;
     c = tan(res);
-    printf("%lf",c);
+    
+    char entrada[50];
+    snprintf(entrada, 50, "tan(%.2lf°)", angulo);
+    printf("Tangente: %lf\n", c);
+    adicionar_historico("Tangente", entrada, c);
 }
-void secante(){ // Mesma coisa de seno, mas agora é 1/seno()
-    double angulo;
-    double res;
-    double c;
-    printf("Selecione o angulo:");
+
+void secante(){
+    double angulo, res, c;
+    printf("Selecione o angulo: ");
     scanf("%lf", &angulo);
-    res = angulo*PI/180.0; // Definindo radianos
-    c = 1/sin(res);
-    printf("%lf",c);
+    res = angulo * PI / 180.0;
+    c = 1 / sin(res);
+    
+    char entrada[50];
+    snprintf(entrada, 50, "sec(%.2lf°)", angulo);
+    printf("Secante: %lf\n", c);
+    adicionar_historico("Secante", entrada, c);
 }
-void cossecante(){ // Mesma coisa de cos, mas agora é 1/cos()
-    double angulo;
-    double res;
-    double c;
-    printf("Selecione o angulo:");
+
+void cossecante(){
+    double angulo, res, c;
+    printf("Selecione o angulo: ");
     scanf("%lf", &angulo);
-    res = angulo*PI/180.0; // Definindo radianos
-    c = 1/cos(res);
-    printf("%lf",c);
+    res = angulo * PI / 180.0;
+    c = 1 / cos(res);
+    
+    char entrada[50];
+    snprintf(entrada, 50, "csc(%.2lf°)", angulo);
+    printf("Cossecante: %lf\n", c);
+    adicionar_historico("Cossecante", entrada, c);
 }
-void contangente(){ // Mesma coisa de tangente, mas agora é 1/tan()
-    double angulo;
-    double res;
-    double c;
-    printf("Selecione o angulo:");
+
+void contangente(){
+    double angulo, res, c;
+    printf("Selecione o angulo: ");
     scanf("%lf", &angulo);
-    res = angulo*PI/180.0; // Definindo radianos
-    c = 1/tan(res);
-    printf("%lf",c);
+    res = angulo * PI / 180.0;
+    c = 1 / tan(res);
+    
+    char entrada[50];
+    snprintf(entrada, 50, "cot(%.2lf°)", angulo);
+    printf("Cotangente: %lf\n", c);
+    adicionar_historico("Cotangente", entrada, c);
 }
+
 void logaritmo(){
-    double base;
-    double numero;
-    double res;
-    printf("Selecione a base:");
+    double base, numero, res;
+    printf("Selecione a base: ");
     scanf("%lf", &base);
-    printf("Selecione o numero:");
+    printf("Selecione o numero: ");
     scanf("%lf", &numero);
-    if(base > 1 && numero > 1){
-        res = log(numero) / log(base);
-        printf("%lf", res);
-    }
-    else{
-        printf("Input invalido(string ou num negativo)");
+    
+    if(base <= 0 || base == 1 || numero <= 0){
+        printf("Input invalido\n");
         return;
     }
+    
+    res = log(numero) / log(base);
+    char entrada[100];
+    snprintf(entrada, 100, "log_%.2lf(%.2lf)", base, numero);
+    printf("Logaritmo: %lf\n", res);
+    adicionar_historico("Logaritmo", entrada, res);
 }
+
 void log_natural(){
-    double numero;
-    double res;
-    printf("Selecione o numero:");
+    double numero, res;
+    printf("Selecione o numero: ");
     scanf("%lf", &numero);
-    if(numero > 1){
-    res = log(numero);
-    printf("%lf", res);
-    }
-    else{
-        printf("Selecione um input valido(Erro por string ou por numero negativo)");
+    
+    if(numero <= 0){
+        printf("Selecione um input valido\n");
         return;
     }
+    
+    res = log(numero);
+    char entrada[100];
+    snprintf(entrada, 100, "ln(%.2lf)", numero);
+    printf("Log natural: %lf\n", res);
+    adicionar_historico("Log Natural", entrada, res);
 }
+
 void modulo(){
     int a;
-    printf("Selecione um numero:");
+    printf("Selecione um numero: ");
     scanf("%d", &a);
-    if (a > 0 || a < 0 || a==0){
-      int res = abs(a);
-      printf("O valor absoluto de %d eh %d", a, res);
-    } else {
-        printf("Numero invalido");
-    }
+    
+    int res = abs(a);
+    char entrada[50];
+    snprintf(entrada, 50, "|%d|", a);
+    printf("O valor absoluto de %d eh %d\n", a, res);
+    adicionar_historico("Modulo", entrada, (double)res);
 }
+
 void dezElevadoaX(){
     printf("10 elevado a qual expoente:\n");
     double res = 1;
@@ -295,167 +452,254 @@ void dezElevadoaX(){
         return;
     }
     ler_array();
+    
+    char entrada[200] = "10 ^ (";
+    char temp[20];
     for(int i = 0; i < tamanho; i++){
         res *= array[i];
+        snprintf(temp, 20, "%d", array[i]);
+        strcat(entrada, temp);
+        if(i < tamanho - 1) strcat(entrada, " * ");
     }
-    double resFinal = pow(10,res);
-    printf("Resultado:%lf", resFinal);
+    strcat(entrada, ")");
+    
+    double resFinal = pow(10, res);
+    printf("Resultado: %lf\n", resFinal);
+    adicionar_historico("10^X", entrada, resFinal);
     free(array);
 }
-void vezesEuler(){ // Usa exp() para ter o número Euler
-    printf("Digite os multiplicadores no proximo prompt:\n");
+
+void vezesEuler(){
+    printf("Digite os multiplicadores:\n");
     double res = 1;
     if(ab32() != 0) {       
         return;
     }
     ler_array();
+    
+    char entrada[200] = "e * (";
+    char temp[20];
     for(int i = 0; i < tamanho; i++){
         res *= array[i];
+        snprintf(temp, 20, "%d", array[i]);
+        strcat(entrada, temp);
+        if(i < tamanho - 1) strcat(entrada, " * ");
     }
-    double resFinal = exp(1)*res;
-    printf("Resultado:%lf", resFinal);
+    strcat(entrada, ")");
+    
+    double resFinal = exp(1) * res;
+    printf("Resultado: %lf\n", resFinal);
+    adicionar_historico("X * Euler", entrada, resFinal);
     free(array);
 }
-void EulerElevado(){ // Combina pow e exp para utilizar e^x
-    printf("Digite os expoentes no proximo prompt:");
+
+void EulerElevado(){
+    printf("Digite os expoentes:\n");
     double res = 1;
     if(ab32() != 0) {       
         return;
     }
     ler_array();
+    
+    char entrada[200] = "e ^ (";
+    char temp[20];
     for(int i = 0; i < tamanho; i++){
         res *= array[i];
+        snprintf(temp, 20, "%d", array[i]);
+        strcat(entrada, temp);
+        if(i < tamanho - 1) strcat(entrada, " * ");
     }
-    double resFinal = pow(exp(1),res);
-    printf("Resultado:%lf", resFinal);
+    strcat(entrada, ")");
+    
+    double resFinal = exp(res);
+    printf("Resultado: %lf\n", resFinal);
+    adicionar_historico("Euler^X", entrada, resFinal);
     free(array);
 }
 
 void media(){
-    double res;
+    double res = 0;
     if(ab32() != 0){
         return;
     }
+    ler_array();
+    
+    char entrada[200] = "(";
+    char temp[20];
     for(int i = 0; i < tamanho; i++){
-        printf("Elemento %d ", i + 1);
-        scanf("%d", &array[i]);
-           res += array[i]; 
-     }    
-     double d = res/tamanho;
-     printf("%lf", d);
-     free(array);
-}
-
-void maximo(){ // Essa função verifica se o número anterior é menor do que o próximo, e, se for, um novo valor de max_valor surge
-    if(ab32() != 0){
-        return;
+        res += array[i];
+        snprintf(temp, 20, "%d", array[i]);
+        strcat(entrada, temp);
+        if(i < tamanho - 1) strcat(entrada, " + ");
     }
-    int max_val = array[0];
-    for(int i = 1; i < tamanho; i++){
-        printf("Elemento %d: ", i + 1);
-        scanf("%d", &array[i]);
-        if(array[i] > max_val){
-            max_val = array[i];
-        }
-    }
-    printf("O valor maximo eh: %d\n", max_val);
+    char divisor[20];
+    snprintf(divisor, 20, ") / %d", tamanho);
+    strcat(entrada, divisor);
+    
+    double d = res / tamanho;
+    printf("Media: %lf\n", d);
+    adicionar_historico("Media", entrada, d);
     free(array);
 }
 
-void menu(){ // Menu ascii e switch simples
-    int escolha; 
-        printf("\n+-------------------------------------------------------------+\n");
-        printf("|  1. Soma           |  2. Subtrair      |  3. Multiplicar    |\n");
-        printf("|  4. Dividir        |  5. Porcentagem   |  6. Potencia       |\n");
-        printf("|  7. Raiz quadrada  |  8. Raiz cubica   |  9. Pot. reversa   |\n");
-        printf("| 10. Fatorial       | 11. Seno          | 12. Cosseno        |\n");
-        printf("| 13. Tangente       | 14. Secante       | 15. Cossecante     |\n");
-        printf("| 16. Cotangente     | 17. Log base N    | 18. Log natural    |\n");
-        printf("| 19. Modulo         | 20. 10^X          | 21. X * Euler      |\n");
-        printf("| 22. Euler^X        | 23. Media         | 24. Max            |\n");
-        printf("|                    0. Sair                                  |\n");
-        printf("+-------------------------------------------------------------+\n");
-        
-        printf("Escolha uma opcao:");        
-
-        scanf("%d", &escolha);
-
-    switch (escolha)
-    {
-    case 1:
-        soma();
-        break;
-    case 2:
-        subtrair();
-        break;
-    case 3:
-        multiplicar();
-        break;
-    case 4:
-        dividir();
-        break;
-    case 5:
-        porcentagem();
-        break;
-    case 6:
-        potencia();
-        break;
-    case 7:
-        raiz2();
-        break;
-    case 8:
-        raiz3();
-        break;
-    case 9:
-        potenciareversa();
-        break;
-    case 10:
-        fatorial();
-        break;
-    case 11:
-        s3n();
-        break;
-    case 12:
-        c0s();
-        break;
-    case 13:
-        t4n();
-        break;
-    case 14:
-        secante();
-        break;
-    case 15:
-        cossecante();
-        break;
-    case 16:
-        contangente();
-        break;
-    case 17:
-        logaritmo();
-        break;
-    case 18:
-        log_natural();
-        break;
-    case 19:
-        modulo();
-        break;
-    case 20:
-        dezElevadoaX();
-        break;
-    case 21:
-        vezesEuler();
-        break;
-    case 22:
-        EulerElevado();
-        break;
-    case 23:
-        media();
-        break;
-    case 24:
-        maximo();
-        break;
-    default:
-        printf("Selecione alguma funcao do menu! Fechando programa.\n");
-        break;
+void maximo(){
+    if(ab32() != 0){
+        return;
     }
+    ler_array();
+    
+    int max_val = array[0];
+    char entrada[200] = "max(";
+    char temp[20];
+    
+    for(int i = 0; i < tamanho; i++){
+        if(array[i] > max_val){
+            max_val = array[i];
+        }
+        snprintf(temp, 20, "%d", array[i]);
+        strcat(entrada, temp);
+        if(i < tamanho - 1) strcat(entrada, ", ");
+    }
+    strcat(entrada, ")");
+    
+    printf("O valor maximo eh: %d\n", max_val);
+    adicionar_historico("Maximo", entrada, (double)max_val);
+    free(array);
+}
+
+void determinante2x2(){
+    double matriz[2][2];
+    
+    printf("\n=== DETERMINANTE DE MATRIZ 2x2 ===\n");
+    printf("Digite os elementos da matriz:\n");
+    
+    for(int i = 0; i < 2; i++){
+        for(int j = 0; j < 2; j++){
+            printf("Elemento [%d][%d]: ", i+1, j+1);
+            scanf("%lf", &matriz[i][j]);
+        }
+    }
+    
+    // Cálculo do determinante: det = a*d - b*c
+    double det = (matriz[0][0] * matriz[1][1]) - (matriz[0][1] * matriz[1][0]);
+    
+    // Montar entrada para histórico
+    char entrada[200];
+    snprintf(entrada, 200, "|%.2lf %.2lf; %.2lf %.2lf|", 
+             matriz[0][0], matriz[0][1], matriz[1][0], matriz[1][1]);
+    
+    printf("\nMatriz:\n");
+    printf("| %.2lf  %.2lf |\n", matriz[0][0], matriz[0][1]);
+    printf("| %.2lf  %.2lf |\n", matriz[1][0], matriz[1][1]);
+    printf("\nDeterminante: %lf\n", det);
+    
+    adicionar_historico("Det 2x2", entrada, det);
+}
+
+void determinante3x3(){
+    double matriz[3][3];
+    
+    printf("\n=== DETERMINANTE DE MATRIZ 3x3 ===\n");
+    printf("Digite os elementos da matriz:\n");
+    
+    for(int i = 0; i < 3; i++){
+        for(int j = 0; j < 3; j++){
+            printf("Elemento [%d][%d]: ", i+1, j+1);
+            scanf("%lf", &matriz[i][j]);
+        }
+    }
+    
+    // Cálculo do determinante pela regra de Sarrus
+    double det = matriz[0][0] * (matriz[1][1] * matriz[2][2] - matriz[1][2] * matriz[2][1])
+               - matriz[0][1] * (matriz[1][0] * matriz[2][2] - matriz[1][2] * matriz[2][0])
+               + matriz[0][2] * (matriz[1][0] * matriz[2][1] - matriz[1][1] * matriz[2][0]);
+    
+    // Montar entrada para histórico (simplificada)
+    char entrada[200];
+    snprintf(entrada, 200, "|%.1lf %.1lf %.1lf; %.1lf %.1lf %.1lf; %.1lf %.1lf %.1lf|", 
+             matriz[0][0], matriz[0][1], matriz[0][2],
+             matriz[1][0], matriz[1][1], matriz[1][2],
+             matriz[2][0], matriz[2][1], matriz[2][2]);
+    
+    printf("\nMatriz:\n");
+    printf("| %.2lf  %.2lf  %.2lf |\n", matriz[0][0], matriz[0][1], matriz[0][2]);
+    printf("| %.2lf  %.2lf  %.2lf |\n", matriz[1][0], matriz[1][1], matriz[1][2]);
+    printf("| %.2lf  %.2lf  %.2lf |\n", matriz[2][0], matriz[2][1], matriz[2][2]);
+    printf("\nDeterminante: %lf\n", det);
+    
+    adicionar_historico("Det 3x3", entrada, det);
+}
+
+void menu(){
+    int escolha; 
+    printf("\n+-------------------------------------------------------------+\n");
+    printf("|  1. Soma           |  2. Subtrair      |  3. Multiplicar    |\n");
+    printf("|  4. Dividir        |  5. Porcentagem   |  6. Potencia       |\n");
+    printf("|  7. Raiz quadrada  |  8. Raiz cubica   |  9. Pot. reversa   |\n");
+    printf("| 10. Fatorial       | 11. Seno          | 12. Cosseno        |\n");
+    printf("| 13. Tangente       | 14. Secante       | 15. Cossecante     |\n");
+    printf("| 16. Cotangente     | 17. Log base N    | 18. Log natural    |\n");
+    printf("| 19. Modulo         | 20. 10^X          | 21. X * Euler      |\n");
+    printf("| 22. Euler^X        | 23. Media         | 24. Max            |\n");
+    printf("| 25. Det 2x2        | 26. Det 3x3                            |\n");
+    printf("| 27. Ver Historico  | 28. Limpar Historico                  |\n");
+    printf("|                    0. Sair                                  |\n");
+    printf("+-------------------------------------------------------------+\n");
+    printf("Escolha uma opcao: ");        
+    scanf("%d", &escolha);
+
+    switch(escolha){
+        case 1: soma(); break;
+        case 2: subtrair(); break;
+        case 3: multiplicar(); break;
+        case 4: dividir(); break;
+        case 5: porcentagem(); break;
+        case 6: potencia(); break;
+        case 7: raiz2(); break;
+        case 8: raiz3(); break;
+        case 9: potenciareversa(); break;
+        case 10: fatorial(); break;
+        case 11: s3n(); break;
+        case 12: c0s(); break;
+        case 13: t4n(); break;
+        case 14: secante(); break;
+        case 15: cossecante(); break;
+        case 16: contangente(); break;
+        case 17: logaritmo(); break;
+        case 18: log_natural(); break;
+        case 19: modulo(); break;
+        case 20: dezElevadoaX(); break;
+        case 21: vezesEuler(); break;
+        case 22: EulerElevado(); break;
+        case 23: media(); break;
+        case 24: maximo(); break;
+        case 25: determinante2x2(); break;
+        case 26: determinante3x3(); break;
+        case 27: mostrar_historico(); break;
+        case 28: limpar_historico(); break;
+        case 0: 
+            printf("Encerrando programa...\n");
+            break;
+        default:
+            printf("Opcao invalida!\n");
+            break;
+    }
+}
+
+int main(){
+    int continuar = 1;
+    
+    printf("=== CALCULADORA CIENTIFICA ===\n");
+    
+    while(continuar){
+        menu();
+        
+        if(continuar){
+            printf("\n\nDeseja fazer outra operacao? (1-Sim / 0-Nao): ");
+            scanf("%d", &continuar);
+        }
+    }
+    
+    printf("\nPrograma encerrado. Ate logo!\n");
+    return 0;
 }
