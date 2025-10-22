@@ -1,11 +1,22 @@
 #include "testlib.h"
 
 // To-do abaixo:
-// Definir testes para o código, verificar se o input é válido e resultados são os esperados
 // Dar um jeito de usar o array para juntar funções
-// Salvar histórico de operações
 
 int main(){
-    menu();
+    int continuar = 1;
+    
+    printf("=== CALCULADORA CIENTIFICA ===\n");
+    
+    while(continuar){
+        menu();
+        
+        if(continuar){
+            printf("\n\nDeseja fazer outra operacao? (1-Sim / 0-Nao): ");
+            scanf("%d", &continuar);
+        }
+    }
+    
+    printf("\nPrograma encerrado. Ate logo!\n");
     return 0;
 }
