@@ -24,4 +24,4 @@ gcc calc.c -o executavel
 [Vídeo demonstração 2](https://github.com/user-attachments/assets/2236a2d2-30fe-4817-b056-349b28325691)
 [Vídeo demonstração 3](https://github.com/user-attachments/assets/a8169bfa-2d54-4855-b876-63cdeb3640df)
 
-### Participantes: Gustavo Vasconcelos Ruas, Davi Carvalho Boueres
+### Participantes: Gustavo Vasconcelos Ruas, Davi Carvalho Boueres, Henry Clark e Davi Lucas.
