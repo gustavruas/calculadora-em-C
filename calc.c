@@ -8,15 +8,14 @@ int main(){
     
     printf("=== CALCULADORA CIENTIFICA ===\n");
     
-    while(continuar){
+    while(continuar == 1) {
         menu();
         
         if(continuar){
-            printf("\n\nDeseja fazer outra operacao? (1-Sim / 0-Nao): ");
+            printf("\n\nDeseja fazer outra operacao? (1-Sim / 0-Nao): "); 
             scanf("%d", &continuar);
         }
     }
-    
     printf("\nPrograma encerrado. Ate logo!\n");
     return 0;
 }
