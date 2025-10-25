@@ -19,12 +19,26 @@ typedef struct {
 RegistroHistorico historico[MAX_HISTORICO];
 int total_historico = 0;
 
+void historico_persistente(){
+  FILE *fptr;
+
+  fptr = fopen("historico.txt", "a"); // "a" determinado o modo, esse sendo o append
+
+  fprintf(fptr, "Operacao: %s\n",historico[total_historico].operacao);
+  fprintf(fptr, "Entrada: %s\n", historico[total_historico].entrada);
+  fprintf(fptr, "Resultado: %s\n",historico[total_historico].resultado);
+  fprintf(fptr, "------------------------------\n");
+
+  fclose(fptr);
+}
+
 // Função para adicionar ao histórico
 void adicionar_historico(const char* operacao, const char* entrada, double resultado) {
     if(total_historico < MAX_HISTORICO) {
         strcpy(historico[total_historico].operacao, operacao);
         strcpy(historico[total_historico].entrada, entrada);
         snprintf(historico[total_historico].resultado, 100, "%.4lf", resultado);
+        historico_persistente();
         total_historico++;
     } else {
         // Se o histórico estiver cheio, desloca tudo uma posição e adiciona no final
@@ -34,31 +48,36 @@ void adicionar_historico(const char* operacao, const char* entrada, double resul
         strcpy(historico[MAX_HISTORICO - 1].operacao, operacao);
         strcpy(historico[MAX_HISTORICO - 1].entrada, entrada);
         snprintf(historico[MAX_HISTORICO - 1].resultado, 100, "%.4lf", resultado);
+        historico_persistente();
     }
 }
 
 // Função para mostrar o histórico
-void mostrar_historico() {
-    if(total_historico == 0) {
+void mostrar_historico() { // Mostrar o arquivo inves do salvo em memoria
+
+    FILE *fp;
+    fp = fopen("historico.txt", "r");
+    char conteudo[100];
+
+    if(total_historico == 0 && fp == NULL) {
         printf("\n=== HISTORICO VAZIO ===\n");
         printf("Nenhuma operacao foi realizada ainda.\n");
         return;
     }
     
     printf("\n========== HISTORICO DE CALCULOS ==========\n");
-    for(int i = 0; i < total_historico; i++) {
-        printf("%d. [%s] %s = %s\n", 
-               i + 1, 
-               historico[i].operacao, 
-               historico[i].entrada, 
-               historico[i].resultado);
-    }
+    while(fgets(conteudo, 100, fp)){
+      printf("%s", conteudo);
+    } 
     printf("==========================================\n");
 }
 
 // Função para limpar o histórico
 void limpar_historico() {
     total_historico = 0;
+    FILE *fp;
+    fp = fopen("historico.txt", "w");
+    fprintf(fp, " ");
     printf("\nHistorico limpo com sucesso!\n");
 }
 
