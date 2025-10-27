@@ -92,7 +92,7 @@ As opções **27** e **28** do menu permitem **visualizar** e **limpar** o hist�
 ---
 
 ##  Autor
-Desenvolvido por **Davi Carvalho Boueres..**, **Henry Clark**, **Davi Lucas**, **Gustavo Vasconcelos Ruas**
+Desenvolvido por **Davi Carvalho Boueres..**, **Henry Clark B. Silva**, **Davi Lucas**, **Gustavo Vasconcelos Ruas**
 Versão: 2.0  
 Linguagem: C  
 Ano: 2025
