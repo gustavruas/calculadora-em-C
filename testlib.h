@@ -661,7 +661,7 @@ void menu(){
     printf("| 19. Modulo         | 20. 10^X          | 21. X * Euler      |\n");
     printf("| 22. Euler^X        | 23. Media         | 24. Max            |\n");
     printf("| 25. Det 2x2        | 26. Det 3x3                            |\n");
-    printf("| 27. Ver Historico  | 28. Limpar Historico                  |\n");
+    printf("| 27. Ver Historico  | 28. Limpar Historico                   |\n");
     printf("|                    0. Sair                                  |\n");
     printf("+-------------------------------------------------------------+\n");
     printf("Escolha uma opcao: ");        
